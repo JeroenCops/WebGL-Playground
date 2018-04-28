@@ -55,4 +55,24 @@ class ShaderUtil {
 
     return prog;
   }
+
+  // ----------------------------------------------
+  // Helper functions
+  // ----------------------------------------------
+
+  // Pass in Script Tag IDs for our two shaders and create a program from it.
+  static domShaderProgram(gl, vectID, fragID, doValidate) {
+    // 1. Get Vertex and Fragment Shader Text
+    var vShaderText = ShaderUtil.domShaderSrc(vectID);
+    if (!vShaderText) return null;
+    var fShaderText = ShaderUtil.domShaderSrc(fragID);
+    // 2. Compile text and validate
+    if (!fShaderText) return null;
+    var vShader     = ShaderUtil.createShader(gl, vShaderText, gl.VERTEX_SHADER);
+    if (!vShader)     return null;
+    var fShader     = ShaderUtil.createShader(gl, fShaderText, gl.FRAGMENT_SHADER);
+    if (!fShader)     return null;
+    // 3. Link the shaders together as a program.
+    return ShaderUtil.createProgram(gl, vShader, fShader, doValidate);
+  }
 }
